@@ -1,0 +1,18 @@
+{
+  "name": "kato-whatsapp-automate",
+  "version": "1.0.0",
+  "description": "WA Bot with Automate",
+  "main": "index.js",
+  "scripts": {
+    "test": "node index.js"
+  },
+  "author": "KatowProject",
+  "license": "MIT",
+  "dependencies": {
+    "axios": "^0.21.1",
+    "mangadex-full-api": "^3.10.0",
+    "moment-timezone": "^0.5.33",
+    "node-superfetch": "^0.1.11",
+    "quick.db": "^7.1.3"
+  }
+}
