@@ -11,14 +11,14 @@ class Kusonime {
         return new Promise(async (fullfill, reject) => {
             try {
 
-                let req = await axios.get(`http://localhost:3001/api/cari/${query}`);
+                let req = await axios.get(`http://localhost:3000/api/cari/${query}`);
                 const res = req.data;
 
                 if (res.length < 1) return message.reply(`Tidak ditemukan judul ${query}!`);
                 let chunk = this.client.util.chunk(res, 5);
                 let result = chunk[0].map((a, i) => `*${i + 1}. ${a.title}*\n${a.link.url}`);
                 
-                await client.sendText(message.from, `*Hasil Pencarian*:\n\n${result.join('\n')}\n\n*Penggunaan*:\nSalin URL yang kamu ingin download kemudian jalankan perintah *k!kusonime anime <URL>*`);
+                await client.sendText(message.from, `*Hasil Pencarian*:\n\n${result.join('\n')}\n\n*Penggunaan*:\nSalin URL yang kamu ingin download kemudian jalankan perintah *k!kusonime <URL>*\n\n*Contoh*:\nk!kusonime <URL>\nk!kusonime https://kusonime.com/seitokai-yakuindomo-movie-bd-subtitle-indonesia/`);
                 fullfill();         
 
             } catch (err) {
@@ -32,14 +32,14 @@ class Kusonime {
         return new Promise(async (fullfill, reject) => {
             try {
 
-                let req = await axios.get(`http://localhost:3001/api/anime/${query}`);
+                let req = await axios.get(`http://localhost:3000/api/anime/${query}`);
                 const res = req.data;
 
                 //link download
-                let link_data = res.list_download.map((a, i) => `*${a.resolusi}*\n${a.link_download.map((a, i) => `├ *${a.platform}*\n${a.link}`).join('\n')}\n`).join('\n');
+                let p = res.list_download.map((a) => `*${a[0]}*\n${a[1].map(b => `*${b.resolusi}*\n${b.link_download.map(c => `├${c.platform}\n${c.link}`).join('\n')}`).join('\n')}`)
                 let caption = 
-                `✅ ${res.title}\n├ Genre: ${res.genre.map((a) => `${a.name}`).join(', ')}\n├ Season: ${res.season.name}\n├ Status: ${res.status}\n├ Durasi: ${res.durasi}\n└ Score: ${res.score}\n\n⬇ Link Download\n${link_data}`
-
+                `✅ ${res.title}\n├ Genre: ${res.genre.map((a) => `${a.name}`).join(', ')}\n├ Season: ${res.season.name}\n├ Status: ${res.status}\n├ Durasi: ${res.durasi}\n└ Score: ${res.score}\n\n⬇ Link Download\n${p.join('\n')}`
+                
                 await client.sendImage(message.from, res.thumbnail, res.thumbnail.split('/').pop().replace('.jpg', ''), caption);
                 
                 fullfill();
@@ -70,7 +70,7 @@ class Samehadaku {
                 let chunk = this.client.util.chunk(res.results, 5);
                 let result = chunk[0].map((a, i) => `*${i + 1}. ${a.title}*\n${a.link}`);
     
-                await client.sendText(message.from, `*Hasil Pencarian:*\n${result.join('\n')}\n\n*Penggunaan*:\nSalin URL yang tersedia, kemudian jalankan perintah *k!samehadaku anime <url>*`);
+                await client.sendText(message.from, `*Hasil Pencarian:*\n${result.join('\n')}\n\n*Penggunaan*:\nSalin URL yang tersedia, kemudian jalankan perintah *k!samehadaku <url>*\n\n*Contoh*:\nk!samehadaku ${chunk[0][0].link}`);
                 fullfill();
                 
             } catch (err) {
@@ -91,7 +91,7 @@ class Samehadaku {
 
                 if (res.length < 1) return client.reply(message.from, `Tidak ditemukan, Hubungi Developer Secepatnya!`, message.id);
                 let Eps = res.list_episode.map((a, i) => `*${i + 1}. ${a.title}*\n${a.link}`);
-                let caption = `✅ ${res.title}\n├ Genre: ${res.genre.map((a) => `${a.text}`).join(', ')}\n├ Season: ${res.detail.Season}\n├ Status: ${res.detail.Status}\n├ Durasi: ${res.detail.Duration}\n└ Release: ${res.detail.Rilis}\n\n*List Episode:*\n${Eps.join('\n')}\n\n*Penggunaan:*\nSalin URL yang tersedia, kemudian ketik *k!samehadaku eps <link>*`;
+                let caption = `✅ ${res.title}\n├ Genre: ${res.genre.map((a) => `${a.text}`).join(', ')}\n├ Season: ${res.detail.Season}\n├ Status: ${res.detail.Status}\n├ Durasi: ${res.detail.Duration}\n└ Release: ${res.detail.Rilis}\n\n*List Episode:*\n${Eps.join('\n')}\n\n*Penggunaan:*\nSalin URL yang tersedia, kemudian ketik *k!samehadaku <URL>*\n\n*Contoh*:'\nk!samehadaku ${res.list_episode[0].link}`;
                 
                 let image = res.image.split('/').pop().split('.').shift();
                 await client.sendImage(message.from, res.image.split('?').shift(), image, caption);

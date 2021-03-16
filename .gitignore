@@ -1,3 +1,6 @@
 node_modules
+logs/kato
 package_lock.json
 Kato.data.json
+config.json
+
