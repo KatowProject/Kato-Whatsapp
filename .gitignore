@@ -1,6 +1,5 @@
 node_modules
-logs/kato
-package_lock.json
 Kato.data.json
+package-lock.js
 config.json
 
