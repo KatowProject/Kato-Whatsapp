@@ -15,11 +15,9 @@ exports.run = async (client, message, args) => {
                 status.set(user, { alasan: reason || 'AFK' });
                 status.add(`${user}.time`, Date.now());
             }, 7000);
-
         } else {
             status.delete(user);
         };
-
 
     } catch (error) {
         console.log(error);

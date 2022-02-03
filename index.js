@@ -1,17 +1,17 @@
 
-const { create, Client } = require('@open-wa/wa-automate');
+const { create } = require('@open-wa/wa-automate');
 const Util = require('./handler/Util');
 const { Kusonime, Samehadaku } = require('./plugin/anime');
 const Manga = require('./plugin/manga');
+const { Collection } = require('@discordjs/collection');
 
-const start = (client = new Client()) => {
-
+const start = (client) => {
     require('./handler/module.js')(client);
     require('./handler/events.js')(client);
-    
-    client.commands = new Map();
-    client.cooldown = new Map();
-    client.aliases = new Map();
+
+    client.commands = new Collection();
+    client.cooldown = new Collection();
+    client.aliases = new Collection();
     client.recent = new Set();
     client.util = new Util();
     client.package = require('./package.json');
@@ -20,26 +20,21 @@ const start = (client = new Client()) => {
     client.samehadaku = new Samehadaku(client);
     client.manga = new Manga(client);
     client.db = require('quick.db');
-
 }
 
 
 process.on("unhandledRejection", (reason, promise) => {
-
     console.error("Unhandled Rejection at:", reason.stack || reason);
     console.error(reason);
-
 });
-  
-process.on("uncaughtException", err => {
 
+process.on("uncaughtException", err => {
     console.error(new Date());
     console.error(`Caught exception: ${err}`);
     console.error(err);
     if (err.code == "PROTOCOL_ENQUEUE_AFTER_FATAL_ERROR") {
-      console.error("true");
+        console.error("true");
     }
-
 });
 
 const options = {
@@ -60,9 +55,10 @@ const options = {
         '--disable-application-cache',
         '--disable-offline-load-stale-cache',
         '--disk-cache-size=0'
-    ]
+    ],
+    eventMode: true
 };
 
 create(options)
     .then((client) => start(client))
-    .catch((err) => new Error(err))
+    .catch((err) => new Error(err));

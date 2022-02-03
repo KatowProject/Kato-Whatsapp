@@ -3,20 +3,19 @@ const db = require('quick.db');
 const cooldowns = new Map();
 
 module.exports = async (client, message) => {
-
     let prefix;
-    if (!message.body) return;
-    if (message.body.toLowerCase().startsWith(client.config.prefix[0])) {
+    if (!message.text) return;
+    if (message.text.toLowerCase().startsWith(client.config.prefix[0])) {
         prefix = client.config.prefix[0];
-    } else if (message.body.toLowerCase().startsWith(client.config.prefix[1])) {
+    } else if (message.text.toLowerCase().startsWith(client.config.prefix[1])) {
         prefix = client.config.prefix[1];
     }
 
     require('../plugin/afk')(client, message);
-    if(!message.body.toLowerCase().startsWith(prefix)) return;
+    if (!message.text.toLowerCase().startsWith(prefix)) return;
 
-    let args = message.body.slice(prefix.length).trim().split(/ +/g);
-    let msg = message.body.toLowerCase();
+    let args = message.text.slice(prefix.length).trim().split(/ +/g);
+    let msg = message.text.toLowerCase();
     let cmd = args.shift().toLowerCase();
     let sender = message.from;
 
@@ -30,7 +29,7 @@ module.exports = async (client, message) => {
         if (!client.config.owners.includes(message.sender.id)) return client.sendText(message.from, `Mohon Maaf, saat ini Bot sedang dalam keadaan Maintenance!`);
     }
     let commandFile = client.commands.get(cmd) || client.commands.get(client.aliases.get(cmd));
-    if(!commandFile) return;
+    if (!commandFile) return;
 
     if (!cooldowns.has(commandFile.help.name)) {
         cooldowns.set(commandFile.help.name, new Map());
@@ -43,35 +42,28 @@ module.exports = async (client, message) => {
 
     if (!timestamps.has(member)) {
         if (!client.config.owners.includes(message.sender.id)) {
-          timestamps.set(member, now);
+            timestamps.set(member, now);
         }
-      } else {
+    } else {
         const expirationTime = timestamps.get(member) + cooldownAmount;
-    
+
         if (now < expirationTime) {
-    
-          const timeLeft = (expirationTime - now) / 1000;
-          return message.reply(`Kamu bisa menggunakan perintah ini setelah ${timeLeft} detik!`);
-          // Bisa diubah teks nya, kalo misalnya user nya lagi cooldown.
+            const timeLeft = (expirationTime - now) / 1000;
+            return message.reply(`Kamu bisa menggunakan perintah ini setelah ${timeLeft} detik!`);
+            // Bisa diubah teks nya, kalo misalnya user nya lagi cooldown.
         }
-    
+
         timestamps.set(member, now);
         setTimeout(() => timestamps.delete(member), cooldownAmount);
     }
 
     try {
-
         let command = client.commands.get(cmd) || client.commands.get(client.aliases.get(cmd));
         command.run(client, message, args);
-        
     } catch (e) {
-
         console.log(e.message);
-
     } finally {
-
         console.log(`ID: ${sender} ran ${cmd}`);
-
     }
 
 

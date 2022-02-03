@@ -1,10 +1,11 @@
 const fs = require('fs');
+const { Collection } = require('@discordjs/collection');
+
 
 module.exports = client => {
-
-    client.commands = new Map();
-    client.aliases = new Map();
-    client.helps = new Map();
+    client.commands = new Collection();
+    client.aliases = new Collection();
+    client.helps = new Collection();
 
     fs.readdir('./commands/', (err, categories) => {
         if (err) console.log(err);
@@ -14,13 +15,13 @@ module.exports = client => {
             Conf.path = `./commands/${category}`;
             Conf.cmds = [];
             client.helps.set(category, Conf);
-            if(!Conf) return;
+            if (!Conf) return;
             fs.readdir(`./commands/${category}`, (err, files) => {
                 console.log(`Ditemukan ${files.length - 1} perintah dari folder ${category}.`);
-                if(err) console.log(err);
+                if (err) console.log(err);
                 let commands = new Array();
                 files.forEach(file => {
-                    if(!file.endsWith('.js')) return;
+                    if (!file.endsWith('.js')) return;
                     let prop = require(`../commands/${category}/${file}`);
                     let cmdName = file.split('.')[0];
                     client.commands.set(prop.help.name, prop);
