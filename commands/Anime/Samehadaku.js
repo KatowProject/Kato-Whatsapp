@@ -3,8 +3,7 @@ const WA = require('@open-wa/wa-automate');
 exports.run = async (client, message, args) => {
 
     try {
-
-        if (!args[0]) return client.reply(message.from, `masukkan judulnya!`, message.id);
+        if (!args[0]) return client.reply(message.from, `*Usage*:\nk!samehadaku <title>\n*Example*:\nk!samehadaku kanojo okarishimasu`, message.id);
         const query = args.join(' ');
 
         if (query.includes('anime/')) {
@@ -14,11 +13,9 @@ exports.run = async (client, message, args) => {
         } else {
             await client.samehadaku.getBySearch(client, message, query);
         }
-
     } catch (err) {
         return client.reply(message.from, `Something went wrong:\n ${err.message}`, message.id);
     }
-
 };
 
 exports.conf = {
