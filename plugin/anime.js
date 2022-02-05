@@ -114,4 +114,81 @@ class Samehadaku {
     }
 }
 
-module.exports = { Kusonime, Samehadaku };
+class Otakudesu {
+    constructor(client) {
+        this.client = client;
+    }
+
+    getBySearch(message, query) {
+        return new Promise(async (fullfill, reject) => {
+            try {
+                const response = await axios.get(`https://komikato.katowproject.ink/api/otakudesu/search/${query}`);
+                const data = response.data.data;
+
+                if (data.length < 1) reject(`Tidak ditemukan dengan judul ${query}`);
+                const animes = this.client.util.chunk(data, 5);
+
+                const txt = `*Hasil Pencarian*:\n${animes[0].map((a, i) => `*${i + 1}. ${a.name}*\n${a.url}`).join('\n')}\n\n*Penggunaan*:\nSalin URL yang tersedia, kemudian jalankan perintah *k!otakudesu <url>*\n\n*Contoh*:\nk!otakudesu ${animes[0][0].url}`;
+                this.client.sendText(message.from, txt);
+
+                fullfill(txt);
+            } catch (err) {
+                reject(err);
+            }
+        });
+    }
+
+    getDetail(message, query) {
+        return new Promise(async (fullfill, reject) => {
+            try {
+                const response = await axios.get(`https://komikato.katowproject.ink/api/otakudesu/anime/detail/${query}`);
+                const data = response.data.data;
+
+                const eps = data.eps.find(a => a.type === 'List').data;
+                let dl = eps.map((a, i) => `*${i + 1}. ${a.title}*`);
+                let description =
+                    `✅ ${data.main_title}\n├ Genre: ${data.genre}\n├ Season: ${data.episodes}\n├ Status: ${data.status}\n├ Durasi: ${data.duration}\n└ Score: ${data.skor}\n\n⬇ Link Episode\n${dl.join('\n')}`
+                await this.client.sendImage(message.from, data.thumb, 'otakudesu', description);
+                await this.client.reply(message.from, `*Penggunaan:*\npilih Episode menggunakan angka yang tersedia di atas.\n\nKato memberi waktu selama 1 menit untuk memilih!`, message.id);
+
+                const collector = this.client.createMessageCollector(message.from, m => m.sender.id === message.sender.id, { time: 60_000, max: 1 });
+                collector.on('collect', m => {
+                    if (m.body.toLowerCase() === 'cancel') {
+                        collector.stop();
+                        this.client.reply(message.from, `Dihentikan!`, message.id);
+                    }
+
+                    const toInt = parseInt(m.body);
+                    if (!toInt) return this.client.reply(message.from, `Gunakan angka untuk melanjutkan!`, message.id);
+
+                    this.getLink(message, eps[toInt - 1].endpoint);
+                    collector.stop();
+                });
+            } catch (err) {
+                reject(err);
+            }
+        });
+    }
+
+    getLink(message, query) {
+        return new Promise(async (fullfill, reject) => {
+            try {
+                const response = await axios.get(`https://komikato.katowproject.ink/api/otakudesu/anime/eps${query}`);
+                const data = response.data.data;
+
+                let link = data.download_link.map((a, i) => {
+                    const f = a.name;
+                    const link = a.data.map((b, j) => `*${b.title}*\n${b.url}`).join('\n');
+
+                    return `*${f}*\n${link}`;
+                }).join('\n\n');
+
+                await this.client.sendText(message.from, `✅${data.title}\n\n${link}`);
+            } catch (err) {
+                reject(err);
+            }
+        });
+    }
+}
+
+module.exports = { Kusonime, Samehadaku, Otakudesu };

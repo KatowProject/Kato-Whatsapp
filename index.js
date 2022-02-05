@@ -1,7 +1,7 @@
 
 const { create } = require('@open-wa/wa-automate');
 const Util = require('./handler/Util');
-const { Kusonime, Samehadaku } = require('./plugin/anime');
+const { Kusonime, Samehadaku, Otakudesu } = require('./plugin/anime');
 const Manga = require('./plugin/manga');
 const { Collection } = require('@discordjs/collection');
 
@@ -18,6 +18,7 @@ const start = (client) => {
     client.config = require('./config.json');
     client.kusonime = new Kusonime(client);
     client.samehadaku = new Samehadaku(client);
+    client.otakudesu = new Otakudesu(client);
     client.manga = new Manga(client);
     client.db = require('quick.db');
 }

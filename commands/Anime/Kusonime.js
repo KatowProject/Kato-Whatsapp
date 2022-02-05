@@ -4,7 +4,7 @@ exports.run = async (client, message, args) => {
 
     try {
 
-        if (!args[0]) return client.reply(message.from, `masukkan judulnya!`, message.id);
+        if (!args[0]) return client.reply(message.from, `*Usage*:\nk!kusonime <title>\n*Example*:\nk!kusonime kanojo okarishimasu`, message.id);
 
         const query = args.join(' ');
         if (query.startsWith('http')) {

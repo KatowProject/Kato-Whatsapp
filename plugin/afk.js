@@ -8,7 +8,7 @@ module.exports = async (client, message) => {
         mentioned = message.mentionedJidList;
 
     if (mentioned.length > 0) {
-        mentioned = mentioned[0].split('@').shift();
+        mentioned = mentioned[0].replace('@c.us', '')
         let status = await afk.get(`${mentioned}.alasan`),
             waktu = await afk.get(`${mentioned}.time`);
 

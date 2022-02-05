@@ -49,7 +49,7 @@ module.exports = async (client, message) => {
 
         if (now < expirationTime) {
             const timeLeft = (expirationTime - now) / 1000;
-            return message.reply(`Kamu bisa menggunakan perintah ini setelah ${timeLeft} detik!`);
+            return message.reply(message.from, `Kamu bisa menggunakan perintah ini setelah ${timeLeft} detik!`, message.id);
             // Bisa diubah teks nya, kalo misalnya user nya lagi cooldown.
         }
 

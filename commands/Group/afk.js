@@ -2,6 +2,8 @@ let db = require('quick.db')
 
 exports.run = async (client, message, args) => {
     try {
+        if (!message.isGroupMsg) return client.reply(message.from, 'Maaf, fitur ini hanya bisa digunakan di grup!', message.id);
+
         const status = new db.table('AFKs');
         let user = message.sender.id.split('@').shift();
         let afk = await status.fetch(user);
@@ -10,7 +12,7 @@ exports.run = async (client, message, args) => {
         let reason = args.join(' ');
 
         if (!afk) {
-            client.sendTextWithMentions(message.from, `@${message.sender.id.split('@').shift()} telah AFK! \n*Alasan:* ${reason ? reason : "AFK"}`)
+            client.sendTextWithMentions(message.from, `@${message.sender.id.replace('@c.us', '')} telah AFK! \n*Alasan:* ${reason ? reason : "AFK"}`);
             setTimeout(() => {
                 status.set(user, { alasan: reason || 'AFK' });
                 status.add(`${user}.time`, Date.now());

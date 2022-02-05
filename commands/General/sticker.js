@@ -11,15 +11,23 @@ exports.run = async (client, message, args) => {
             case message.type === 'image':
                 //send image as sticker
                 const den = await WA.decryptMedia(message);
-                const imgbase64 = `data:image/png;base64,${den.toString('base64')}`;
+                const imgbase64 = `data:${message.mimetype};base64,${den.toString('base64')}`;
                 client.sendImageAsSticker(message.chatId, imgbase64);
+                break;
+
+            case message.type === 'video':
+                //send video as sticker
+                const den2 = await WA.decryptMedia(message);
+                const vidbase64 = `data:${message.mimetype};base64,${den2.toString('base64')}`;
+                client.sendVideoAsSticker(message.chatId, vidbase64);
                 break;
 
             default:
                 client.reply(message.chatId, 'Kamu harus mengirim gambar untuk menkonversi ke sticker.', message.id);
+                break;
         }
     } catch (err) {
-        client.reply(message, `Something went wrong: ${err.message}`, message.id);
+        client.reply(message.from, `Something went wrong: ${err.message}`, message.id);
     }
 };
 

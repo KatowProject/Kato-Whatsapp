@@ -8,9 +8,9 @@ exports.run = async (client, message, args) => {
         const query = args.join(' ');
 
         if (query.includes('anime/')) {
-            await client.samehadaku.getAnime(client, message, query.replace('https://samehadaku.vip/anime/', ''))
-        } else if (query.includes('vip/')) {
-            await client.samehadaku.getEps(client, message, query.replace('https://samehadaku.vip/', ''));    
+            await client.samehadaku.getAnime(client, message, query.replace('https://194.163.183.129/anime/', ''))
+        } else if (query.includes('129/')) {
+            await client.samehadaku.getEps(client, message, query.replace('https://194.163.183.129/', ''));
         } else {
             await client.samehadaku.getBySearch(client, message, query);
         }
