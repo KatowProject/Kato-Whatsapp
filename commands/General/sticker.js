@@ -19,7 +19,7 @@ exports.run = async (client, message, args) => {
                 //send video as sticker
                 const den2 = await WA.decryptMedia(message);
                 const vidbase64 = `data:${message.mimetype};base64,${den2.toString('base64')}`;
-                client.sendVideoAsSticker(message.chatId, vidbase64);
+                client.sendGiphyAsSticker(message.chatId, vidbase64);
                 break;
 
             default:
