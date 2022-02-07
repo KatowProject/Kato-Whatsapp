@@ -23,7 +23,7 @@ exports.conf = {
 };
 
 exports.help = {
-    name: 'komikind',
+    name: 'komikindo',
     description: 'komikindo',
     example: 'komikindo',
     usage: 'komikindo'
