@@ -33,7 +33,7 @@ class Komikindo {
                 await this.client.reply(message.from, `*Penggunaan:*\npilih Chapter menggunakan angka yang tersedia di atas.\n\nKato memberi waktu selama 1 menit untuk memilih!`, message.id);
 
                 const collector = this.client.createMessageCollector(message.from, m => m.sender.id === message.sender.id, { time: 60_000, max: 1 });
-                collector.on('collect', m => {
+                collector.on('collect', async m => {
                     if (m.body.toLowerCase() === 'cancel') {
                         collector.stop();
                         this.client.reply(message.from, `Dihentikan!`, message.id);
