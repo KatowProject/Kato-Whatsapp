@@ -5,7 +5,7 @@ exports.run = async (client, message, args) => {
 
         switch (true) {
             case query.includes('komik/'):
-                await client.komikindo.getDetail(message, query.replace('https://komikindo.id/komik/', ''));
+                await client.komikindo.getDetail(message, query.replace('https://komikindo.id/', ''));
                 break;
 
             default:
