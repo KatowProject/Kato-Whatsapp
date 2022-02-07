@@ -12,7 +12,7 @@ class Komikindo {
                 if (data.manga.length < 1) return client.reply(message.from, `Tidak ditemukan dengan judul ${query}`, message.id);
 
                 const result = data.manga.map(a => `*${a.title}*\n${a.link.url}`).join('\n');
-                await this.client.sendText(message.from, `*Hasil Pencarian:*\n${result.join('\n')}\n\n*Penggunaan*:\nSalin URL yang tersedia, kemudian jalankan perintah *k!komikindo <url>*\n\n*Contoh*:\nk!samehadaku ${data.manga[0].link.url}`);
+                await this.client.sendText(message.from, `*Hasil Pencarian:*\n${result}\n\n*Penggunaan*:\nSalin URL yang tersedia, kemudian jalankan perintah *k!komikindo <url>*\n\n*Contoh*:\nk!samehadaku ${data.manga[0].link.url}`);
 
                 fullfill(result);
             } catch (err) {
