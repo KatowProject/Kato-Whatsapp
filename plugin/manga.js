@@ -28,7 +28,7 @@ class Komikindo {
                 const data = response.data.data;
 
                 const chap = data.chapters.map((a, i) => `*${i + 1}. ${a.title}*`).join('\n');
-                let description = `✅ ${data.title}\n├ Genre: ${res.genre.map((a) => `${a.name}`).join(', ')}\n├ Alter: ${data.alter.join(', ')}\n├ Status: ${data.status}\n├ Pengarang: ${data.pengarang}\n└ Tema: ${data.tema[0].name}\n\n*List Episode:*\n${chap.join('\n')}`;
+                let description = `✅ ${data.title}\n├ Genre: ${data.genre.map((a) => `${a.name}`).join(', ')}\n├ Alter: ${data.alter.join(', ')}\n├ Status: ${data.status}\n├ Pengarang: ${data.pengarang}\n└ Tema: ${data.tema[0].name}\n\n*List Episode:*\n${chap}`;
                 await this.client.sendImage(message.from, data.thumb, 'otakudesu', description);
                 await this.client.reply(message.from, `*Penggunaan:*\npilih Chapter menggunakan angka yang tersedia di atas.\n\nKato memberi waktu selama 1 menit untuk memilih!`, message.id);
 
@@ -42,7 +42,7 @@ class Komikindo {
                     const toInt = parseInt(m.body);
                     if (!toInt) return this.client.reply(message.from, `Gunakan angka untuk melanjutkan!`, message.id);
 
-                    const caption = `*Baca Manga*\nhttps://komikato.katowproject.ink/komikindo/chapter/${data.chapters[toInt - 1].endpoint}\n\n*Download Manga*\nhttps://komikato.katowproject.ink/komikindo/download/${data.chapters[toInt - 1].endpoint}`;
+                    const caption = `*Baca Manga*\nhttps://komikato.katowproject.ink/komikindo/chapter/${data.chapters[toInt - 1].endpoint}\n\n*Download Manga*\nhttps://komikato.katowproject.ink/komikindo/download/${data.chapters[toInt - 1].endpoint}pdf`;
                     await this.client.sendText(message.from, caption);
                     collector.stop();
                 });

@@ -1,4 +1,5 @@
 const { EventEmitter } = require('events');
+const message = require('../event/message');
 
 module.exports = client => {
     client.onMessage(message => {
@@ -10,5 +11,9 @@ module.exports = client => {
     client.onStateChanged((state) => {
         console.log('[Client State]', state);
         if (state === 'CONFLICT' || state === 'DISCONNECTED') client.forceRefocus();
+    });
+
+    client.onButton(message => {
+        require('../event/clickButton')(client, message);
     });
 }
