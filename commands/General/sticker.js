@@ -5,21 +5,21 @@ exports.run = async (client, message, args) => {
         switch (true) {
             //if regex https and image filetype
             case message.text.includes('https://') && message.text.includes('.png') || message.text.includes('.jpg') || message.text.includes('.jpeg') || message.text.includes('.gif'):
-                client.sendStickerfromUrl(message.chatId, args.join(' '));
+                client.sendStickerfromUrl(message.chatId, args.join(' '), {}, { author: `KatowProject`, discord: "458342161474387999", pack: `Kato-Sticker`, keepScale: true });
                 break;
 
             case message.type === 'image':
                 //send image as sticker
                 const den = await WA.decryptMedia(message);
                 const imgbase64 = `data:${message.mimetype};base64,${den.toString('base64')}`;
-                client.sendImageAsSticker(message.chatId, imgbase64);
+                client.sendImageAsSticker(message.chatId, imgbase64, { author: `KatowProject`, discord: "458342161474387999", pack: `Kato-Sticker`, keepScale: true });
                 break;
 
             case message.type === 'video':
                 //send video as sticker
                 const den2 = await WA.decryptMedia(message);
                 const vidbase64 = `data:${message.mimetype};base64,${den2.toString('base64')}`;
-                client.sendGiphyAsSticker(message.chatId, vidbase64);
+                client.sendFile(message.chatId, vidbase64);
                 break;
 
             default:

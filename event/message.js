@@ -1,6 +1,5 @@
-const WA = require('@open-wa/wa-automate');
-const db = require('quick.db');
-const cooldowns = new Map();
+const { Collection } = require('@discordjs/collection');
+const cooldowns = new Collection();
 
 module.exports = async (client, message) => {
     let prefix;
@@ -24,10 +23,10 @@ module.exports = async (client, message) => {
         message.flags.push(args.shift().slice(1));
     }
 
-    let closeGate = db.get('close');
-    if (closeGate) {
-        if (!client.config.owners.includes(message.sender.id)) return client.sendText(message.from, `Mohon Maaf, saat ini Bot sedang dalam keadaan Maintenance!`);
-    }
+    // let closeGate = db.get('close');
+    // if (closeGate) {
+    //     if (!client.config.owners.includes(message.sender.id)) return client.sendText(message.from, `Mohon Maaf, saat ini Bot sedang dalam keadaan Maintenance!`);
+    // }
     let commandFile = client.commands.get(cmd) || client.commands.get(client.aliases.get(cmd));
     if (!commandFile) return;
 
@@ -49,7 +48,7 @@ module.exports = async (client, message) => {
 
         if (now < expirationTime) {
             const timeLeft = (expirationTime - now) / 1000;
-            return message.reply(message.from, `Kamu bisa menggunakan perintah ini setelah ${timeLeft} detik!`, message.id);
+            return client.reply(message.from, `Kamu bisa menggunakan perintah ini setelah ${timeLeft} detik!`, message.id);
             // Bisa diubah teks nya, kalo misalnya user nya lagi cooldown.
         }
 

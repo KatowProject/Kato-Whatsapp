@@ -2,8 +2,8 @@
 
 exports.run = async (client, message, args) => {
     const roll = parseInt(args[0]);
-    if (!roll) return message.reply('Kamu harus memasukkan jumlah roll!');
-    if (roll > 10) return message.reply('Jumlah roll tidak boleh lebih dari 10!');
+    if (!roll) return client.reply(message.from, 'Kamu harus memasukkan jumlah roll!', message.id);
+    if (roll > 10) return client.reply(message.from, 'Jumlah roll tidak boleh lebih dari 10!', message.id);
 
     const items = gachaLogic(roll);
     const caption = `*Bog - Gacha*\n\n${items.join('\n')}\n\nRoll: ${roll}\n\nGacha Rate:\nR = 94.3 | SR = 5.1 | SSR = 0.6`;

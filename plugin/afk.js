@@ -1,27 +1,26 @@
-const db = require('quick.db');
+const AFK = require('../database/schema/AFK');
 
 module.exports = async (client, message) => {
-    if (!message.isGroupMsg) return;
-    let user = message.sender.id.split('@').shift();
-    let afk = new db.table('AFKs'),
-        authorstatus = await afk.fetch(user),
-        mentioned = message.mentionedJidList;
+    const mentioned = message.mentionedJidList;
+    const author = await AFK.findOne({ userID: message.sender.id.replace('@c.us', '') });
 
     if (mentioned.length > 0) {
-        mentioned = mentioned[0].replace('@c.us', '')
-        let status = await afk.get(`${mentioned}.alasan`),
-            waktu = await afk.get(`${mentioned}.time`);
+        const user = await AFK.findOne({ userID: mentioned[0].replace('@c.us', '') });
+        if (!user) return;
 
-        let msTos = Date.now() - waktu;
-        let since = client.util.parseDur(msTos);
+        const dataUser = user.data;
+        const waktu = dataUser.now;
+        const alasan = dataUser.reason;
 
-        if (status) {
-            client.sendReplyWithMentions(message.from, `Saat ini @${mentioned} sedang AFK\nAlasan: ${status} - *${since} ago*`, message.id);
-        }
-    }
+        const msLeft = Date.now() - waktu;
+        const since = client.util.parseDur(msLeft);
 
-    if (authorstatus) {
+        client.sendReplyWithMentions(message.from, `@${mentioned[0].replace('@c.us', '')} saat ini sedang AFK - **${since} ago**\n**Alasan:**\n${alasan}`, message.id);
+    };
+
+    if (author) {
         client.reply(message.from, `Kato telah mencabut status AFK mu!`, message.id);
-        await afk.delete(user);
+        //delete
+        author.remove();
     }
 }

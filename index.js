@@ -9,20 +9,20 @@ const start = (client) => {
     require('./handler/module.js')(client);
     require('./handler/events.js')(client);
 
+    client.config = require('./config.json');
     client.commands = new Collection();
     client.cooldown = new Collection();
     client.aliases = new Collection();
     client.recent = new Set();
     client.util = new Util();
     client.package = require('./package.json');
-    client.config = require('./config.json');
     client.kusonime = new Kusonime(client);
     client.samehadaku = new Samehadaku(client);
     client.otakudesu = new Otakudesu(client);
     client.komikindo = new Komikindo(client);
-    client.db = require('quick.db');
-}
 
+    require('./database/index')(client.config.db);
+}
 
 process.on("unhandledRejection", (reason, promise) => {
     console.error("Unhandled Rejection at:", reason.stack || reason);

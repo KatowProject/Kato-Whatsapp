@@ -1,6 +1,6 @@
 node_modules
 Kato.data.json
-package-lock.js
+package-lock.json
 config.json
 # managed
 **.data.json

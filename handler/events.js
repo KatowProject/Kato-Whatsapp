@@ -1,6 +1,3 @@
-const { EventEmitter } = require('events');
-const message = require('../event/message');
-
 module.exports = client => {
     client.onMessage(message => {
         client.getAmountOfLoadedMessages().then((msg) => (msg >= 3000) && client.cutMsgCache());

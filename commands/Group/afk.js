@@ -1,24 +1,20 @@
-let db = require('quick.db')
+const db = require('../../database/schema/AFK');
 
 exports.run = async (client, message, args) => {
     try {
         if (!message.isGroupMsg) return client.reply(message.from, 'Maaf, fitur ini hanya bisa digunakan di grup!', message.id);
 
-        const status = new db.table('AFKs');
-        let user = message.sender.id.split('@').shift();
-        let afk = await status.fetch(user);
-
-        //ignore AFK
-        let reason = args.join(' ');
+        const user = message.sender.id.replace('@c.us', '');
+        const afk = await db.findOne({ userID: user });
+        const reason = args.join(' ');
 
         if (!afk) {
             client.sendTextWithMentions(message.from, `@${message.sender.id.replace('@c.us', '')} telah AFK! \n*Alasan:* ${reason ? reason : "AFK"}`);
-            setTimeout(() => {
-                status.set(user, { alasan: reason || 'AFK' });
-                status.add(`${user}.time`, Date.now());
+            setTimeout(async () => {
+                await db.create({ userID: user, data: { now: Date.now(), reason } });
             }, 7000);
         } else {
-            status.delete(user);
+            afk.remove();
         };
 
     } catch (error) {

@@ -12,7 +12,7 @@ class Kusonime {
                 let req = await axios.get(`https://kusonime.kato-rest.us/api/cari/${query}`);
                 const res = req.data;
 
-                if (res.length < 1) return message.reply(`Tidak ditemukan judul ${query}!`);
+                if (res.length < 1) return client.reply(message.from, `Tidak ditemukan judul ${query}!`, message.id);
                 let chunk = this.client.util.chunk(res, 5);
                 let result = chunk[0].map((a, i) => `*${i + 1}. ${a.title}*\n${a.link.url}`);
 
