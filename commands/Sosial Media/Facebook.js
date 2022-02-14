@@ -4,7 +4,7 @@ const cheerio = require('cheerio');
 exports.run = async (client, message, args) => {
     try {
         let query = args.join(' ')
-        if (!query.includes('mbasic.facebook.com')) query = query.replace('facebook.com', 'mbasic.facebook.com');
+        if (!query.includes('mbasic.facebook.com')) query = query.replace('www.facebook.com', 'mbasic.facebook.com');
         const response = await axios.get(query, {
             headers: {
                 'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/67.0.3396.87 Safari/537.36'
