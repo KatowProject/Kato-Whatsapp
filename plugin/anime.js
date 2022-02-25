@@ -78,7 +78,7 @@ class Samehadaku {
     getAnime(client, message, query) {
         return new Promise(async (fullfill, reject) => {
             try {
-                const req = await axios.get(`https://samehadaku-rest-api.herokuapp.com/anime/${query}`)
+                const req = await axios.get(`https://samehadaku-rest-api.herokuapp.com/anime/${query}`);
                 const res = req.data;
 
                 if (res.length < 1) return client.reply(message.from, `Tidak ditemukan, Hubungi Developer Secepatnya!`, message.id);
@@ -122,7 +122,7 @@ class Otakudesu {
     getBySearch(message, query) {
         return new Promise(async (fullfill, reject) => {
             try {
-                const response = await axios.get(`https://komikato.katowproject.ink/api/otakudesu/search/${query}`);
+                const response = await axios.get(`http://komikato.bugs.today/api/otakudesu/search/${query}`);
                 const data = response.data.data;
 
                 if (data.length < 1) reject(`Tidak ditemukan dengan judul ${query}`);
@@ -141,7 +141,7 @@ class Otakudesu {
     getDetail(message, query) {
         return new Promise(async (fullfill, reject) => {
             try {
-                const response = await axios.get(`https://komikato.katowproject.ink/api/otakudesu/anime/detail/${query}`);
+                const response = await axios.get(`http://komikato.bugs.today/api/otakudesu/anime/detail/${query}`);
                 const data = response.data.data;
 
                 const eps = data.eps.find(a => a.type === 'List').data;
@@ -173,7 +173,7 @@ class Otakudesu {
     getLink(message, query) {
         return new Promise(async (fullfill, reject) => {
             try {
-                const response = await axios.get(`https://komikato.katowproject.ink/api/otakudesu/anime/eps${query}`);
+                const response = await axios.get(`http://komikato.bugs.today/api/otakudesu/anime/eps${query}`);
                 const data = response.data.data;
 
                 let link = data.download_link.map((a, i) => {

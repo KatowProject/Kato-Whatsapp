@@ -7,7 +7,7 @@ class Komikindo {
     getBySearch(message, query) {
         return new Promise(async (fullfill, reject) => {
             try {
-                const response = await axios.get(`https://komikato.katowproject.ink/api/komikindo/cari/${query}/page/1/`);
+                const response = await axios.get(`http://komikato.bugs.today/api/komikindo/cari/${query}/page/1/`);
                 const data = response.data.data;
                 if (data.manga.length < 1) return client.reply(message.from, `Tidak ditemukan dengan judul ${query}`, message.id);
 
@@ -24,7 +24,7 @@ class Komikindo {
     getDetail(message, query) {
         return new Promise(async (fullfill, reject) => {
             try {
-                const response = await axios.get(`https://komikato.katowproject.ink/api/komikindo/${query}`);
+                const response = await axios.get(`http://komikato.bugs.today/api/komikindo/${query}`);
                 const data = response.data.data;
 
                 const chap = data.chapters.map((a, i) => `*${i + 1}. ${a.title}*`).join('\n');
@@ -42,7 +42,7 @@ class Komikindo {
                     const toInt = parseInt(m.body);
                     if (!toInt) return this.client.reply(message.from, `Gunakan angka untuk melanjutkan!`, message.id);
 
-                    const caption = `*Baca Manga*\nhttps://komikato.katowproject.ink/komikindo/chapter/${data.chapters[toInt - 1].endpoint}\n\n*Download Manga*\nhttps://komikato.katowproject.ink/komikindo/download/${data.chapters[toInt - 1].endpoint}pdf`;
+                    const caption = `*Baca Manga*\nhttp://komikato.bugs.today/komikindo/chapter/${data.chapters[toInt - 1].endpoint}\n\n*Download Manga*\nhttp://komikato.bugs.today/komikindo/download/${data.chapters[toInt - 1].endpoint}pdf`;
                     await this.client.sendText(message.from, caption);
                     collector.stop();
                 });
