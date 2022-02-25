@@ -8,7 +8,7 @@ exports.run = async (client, message, args) => {
         // get response url =
         if (!query.includes('tiktok.com')) return client.reply(message.from, 'Link invalid!', message.id);
 
-        const response = await axios.get(`https://server1.majhcc.xyz/api/tk?url=${url}`);
+        const response = await axios.get(`https://server1.majhcc.xyz/api/tk?url=${query}`);
         const data = response.data;
 
         await client.sendText(message.from, "Kato sedang memproses, tunggu sebentar ya...", message.id);
