@@ -6,9 +6,7 @@ exports.run = async (client, message, args) => {
         if (!query) return client.reply(message.from, 'Link invalid!', message.id);
 
         // get response url =
-        const resuri = await axios.get(query);
-        const url = resuri.request.res.responseUrl.split("?")[0];
-        if (!url.includes('tiktok.com')) return client.reply(message.from, 'Link invalid!', message.id);
+        if (!query.includes('tiktok.com')) return client.reply(message.from, 'Link invalid!', message.id);
 
         const response = await axios.get(`https://server1.majhcc.xyz/api/tk?url=${url}`);
         const data = response.data;
