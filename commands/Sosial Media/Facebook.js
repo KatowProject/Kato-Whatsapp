@@ -3,7 +3,8 @@ const cheerio = require('cheerio');
 
 exports.run = async (client, message, args) => {
     try {
-        let query = args.join(' ')
+        return client.sendText(message.from, "Saat ini perintah ini tidak dapat dipakai.", message.id);
+        let query = args.join(' ');
         if (!query.includes('mbasic.facebook.com')) query = query.replace('www.facebook.com', 'mbasic.facebook.com');
         const response = await axios.get(query, {
             headers: {
