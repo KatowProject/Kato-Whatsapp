@@ -9,7 +9,7 @@ class Kusonime {
     getBySearch(client, message, query) {
         return new Promise(async (fullfill, reject) => {
             try {
-                let req = await axios.get(`https://posantai.bugs.today/kusonime/api/cari/${query}`);
+                let req = await axios.get(`http://posantai.bugs.today/kusonime/api/cari/${query}`);
                 const res = req.data;
 
                 if (res.length < 1) return client.reply(message.from, `Tidak ditemukan judul ${query}!`, message.id);
@@ -30,7 +30,7 @@ class Kusonime {
         return new Promise(async (fullfill, reject) => {
             try {
 
-                let req = await axios.get(`https://posantai.bugs.today/kusonime/api/anime/${query}`);
+                let req = await axios.get(`http://posantai.bugs.today/kusonime/api/anime/${query}`);
                 const res = req.data;
 
                 //link download
