@@ -122,8 +122,8 @@ class Otakudesu {
     getBySearch(message, query) {
         return new Promise(async (fullfill, reject) => {
             try {
-                const response = await axios.get(`http://komikato.bugs.today/api/otakudesu/search/${query}`);
-                const data = response.data.data;
+                const response = await axios.get(`https://komi.kato-rest.us/api/otakudesu/search/${query}`);
+                const data = response.data.animes;
 
                 if (data.length < 1) reject(`Tidak ditemukan dengan judul ${query}`);
                 const animes = this.client.util.chunk(data, 5);
@@ -141,8 +141,8 @@ class Otakudesu {
     getDetail(message, query) {
         return new Promise(async (fullfill, reject) => {
             try {
-                const response = await axios.get(`http://komikato.bugs.today/api/otakudesu/anime/detail/${query}`);
-                const data = response.data.data;
+                const response = await axios.get(`https://komi.kato-rest.us/api/otakudesu/anime/${query}`);
+                const data = response.data;
 
                 const eps = data.eps.find(a => a.type === 'List').data;
                 let dl = eps.map((a, i) => `*${i + 1}. ${a.title}*`);
@@ -173,8 +173,8 @@ class Otakudesu {
     getLink(message, query) {
         return new Promise(async (fullfill, reject) => {
             try {
-                const response = await axios.get(`http://komikato.bugs.today/api/otakudesu/anime/eps${query}`);
-                const data = response.data.data;
+                const response = await axios.get(`https://komi.kato-rest.us/api/otakudesu/eps/${query}`);
+                const data = response.data;
 
                 let link = data.download_link.map((a, i) => {
                     const f = a.name;

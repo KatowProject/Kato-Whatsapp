@@ -57,7 +57,8 @@ const options = {
         '--disable-offline-load-stale-cache',
         '--disk-cache-size=0'
     ],
-    eventMode: true
+    eventMode: true,
+    multiDevice: true,
 };
 
 create(options)

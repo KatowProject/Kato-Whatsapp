@@ -1,5 +1,6 @@
 const { Collection } = require('@discordjs/collection');
 const cooldowns = new Collection();
+const isClose = true;
 
 module.exports = async (client, message) => {
     let prefix;
@@ -23,10 +24,10 @@ module.exports = async (client, message) => {
         message.flags.push(args.shift().slice(1));
     }
 
-    // let closeGate = db.get('close');
-    // if (closeGate) {
-    //     if (!client.config.owners.includes(message.sender.id)) return client.sendText(message.from, `Mohon Maaf, saat ini Bot sedang dalam keadaan Maintenance!`);
-    // }
+    if (isClose) {
+        if (!client.config.owners.includes(message.sender.id)) return client.sendText(message.from, `Mohon Maaf, saat ini Bot sedang dalam keadaan Maintenance!`);
+    }
+
     let commandFile = client.commands.get(cmd) || client.commands.get(client.aliases.get(cmd));
     if (!commandFile) return;
 
@@ -64,6 +65,4 @@ module.exports = async (client, message) => {
     } finally {
         console.log(`ID: ${sender} ran ${cmd}`);
     }
-
-
 }

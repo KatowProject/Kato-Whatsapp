@@ -5,7 +5,7 @@ exports.run = async (client, message, args) => {
 
         switch (true) {
             case query.includes('anime/'):
-                await client.otakudesu.getDetail(message, query.replace('https://otakudesu.pro/anime/', ''));
+                await client.otakudesu.getDetail(message, query.replace('https://otakudesu.tube/anime/', ''));
                 break;
 
             default:
