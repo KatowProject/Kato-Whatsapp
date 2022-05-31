@@ -1,6 +1,6 @@
 const { Collection } = require('@discordjs/collection');
 const cooldowns = new Collection();
-const isClose = true;
+const isClose = false;
 
 module.exports = async (client, message) => {
     let prefix;
