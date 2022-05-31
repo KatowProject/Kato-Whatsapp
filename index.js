@@ -4,8 +4,14 @@ const Util = require('./handler/Util');
 const { Kusonime, Samehadaku, Otakudesu } = require('./plugin/anime');
 const { Komikindo } = require('./plugin/manga');
 const { Collection } = require('@discordjs/collection');
+const KuromojiAnalyzer = require("kuroshiro-analyzer-kuromoji");
+const Kuroshiro = require("@dsquare-gbu/kuroshiro");
+const kuroshiro = new Kuroshiro();
+const Giveaway = require('./plugin/Giveaway');
 
-const start = (client) => {
+const start = async (client) => {
+    await kuroshiro.init(new KuromojiAnalyzer());
+
     require('./handler/module.js')(client);
     require('./handler/events.js')(client);
 
@@ -20,6 +26,8 @@ const start = (client) => {
     client.samehadaku = new Samehadaku(client);
     client.otakudesu = new Otakudesu(client);
     client.komikindo = new Komikindo(client);
+    client.kuroshiro = kuroshiro;
+    client.giveaway = new Giveaway(client);
 
     require('./database/index')(client.config.db);
 }
