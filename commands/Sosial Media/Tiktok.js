@@ -18,7 +18,7 @@ exports.run = async (client, message, args) => {
         const data = response.data;
 
         await client.sendText(message.from, "Kato sedang memproses, tunggu sebentar ya...", message.id);
-        await client.sendFileFromUrl(message.from, data.videoLinks.download, `${Date.now()}.mp4`, `Uncompressed Video ${data.link}`);
+        await client.sendFileFromUrl(message.from, data.videoLinks.download, `${Date.now()}.mp4`, `Uncompressed Video ${data.videoLinks.download}`);
     } catch (err) {
         client.reply(message, `Something went wrong!\n${err}`, message.id);
     }
